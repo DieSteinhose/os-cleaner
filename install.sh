@@ -15,7 +15,14 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Download Script
-curl -fsSL "$REPO_URL" -o "$INSTALL_PATH"
+if [ -f "$INSTALL_PATH" ]; then
+    echo "Updating existing script at $INSTALL_PATH"
+else
+    echo "Installing script to $INSTALL_PATH"
+fi
+TMP_FILE="${INSTALL_PATH}.tmp"
+curl -fsSL -H "Cache-Control: no-cache" -H "Pragma: no-cache" "$REPO_URL" -o "$TMP_FILE"
+mv "$TMP_FILE" "$INSTALL_PATH"
 chmod +x "$INSTALL_PATH"
 
 # Create cronjob
