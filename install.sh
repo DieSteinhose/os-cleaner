@@ -15,7 +15,7 @@ fi
 curl -fsSL "$REPO_URL" -o "$INSTALL_PATH"
 chmod +x "$INSTALL_PATH"
 
-# Create cronjob erstellen
+# Create cronjob
 CRON_LINE="$CRON_SCHEDULE $INSTALL_PATH >> /var/log/os-cleaner.log 2>&1"
 (crontab -l 2>/dev/null | grep -v "$INSTALL_PATH"; echo "$CRON_LINE") | crontab -
 
@@ -43,3 +43,14 @@ if [ "$LOGROTATE_INSTALLED" = "true" ] && [ "$LOGROTATE_ACTIVE" = "true" ]; then
 else
     echo "  Reminder: logrotate is not installed or not active."
 fi
+
+echo
+read -r -p "Run os-cleaner now? [y/N]: " RUN_NOW
+case "$RUN_NOW" in
+    [yY]|[yY][eE][sS])
+        "$INSTALL_PATH"
+        ;;
+    *)
+        echo "Skipped running os-cleaner."
+        ;;
+esac
