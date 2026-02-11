@@ -26,9 +26,12 @@ journalctl --vacuum-time=14d
 sync
 FREE_AFTER_KB=$(df -kP / | awk 'NR==2 {print $4}')
 DELTA_KB=$((FREE_AFTER_KB - FREE_BEFORE_KB))
+if [ "$DELTA_KB" -lt 0 ]; then
+    DELTA_KB=0
+fi
 
 if command -v numfmt &>/dev/null; then
-    DELTA_DISPLAY=$(numfmt --to=iec --suffix=B $((DELTA_KB * 1024)))
+    DELTA_DISPLAY=$(numfmt --to=iec --suffix=B -- $((DELTA_KB * 1024)))
 else
     DELTA_DISPLAY="${DELTA_KB}K"
 fi
