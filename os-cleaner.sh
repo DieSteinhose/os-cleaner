@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Track free space before cleanup (in KB)
+FREE_BEFORE_KB=$(df -kP / | awk 'NR==2 {print $4}')
+
 # Docker Cleanup if installed
 if command -v docker &>/dev/null; then
 
@@ -21,4 +24,13 @@ journalctl --vacuum-time=7d
 
 # Finish
 sync
-echo "[$(date)] Cleanup done. Free Storage: $(df -h / | awk 'NR==2 {print $4}')"
+FREE_AFTER_KB=$(df -kP / | awk 'NR==2 {print $4}')
+DELTA_KB=$((FREE_AFTER_KB - FREE_BEFORE_KB))
+
+if command -v numfmt &>/dev/null; then
+    DELTA_DISPLAY=$(numfmt --to=iec --suffix=B $((DELTA_KB * 1024)))
+else
+    DELTA_DISPLAY="${DELTA_KB}K"
+fi
+
+echo "[$(date)] Cleanup done. Free Storage: $(df -h / | awk 'NR==2 {print $4}') (delta: ${DELTA_DISPLAY})"
