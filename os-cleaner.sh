@@ -33,4 +33,4 @@ else
     DELTA_DISPLAY="${DELTA_KB}K"
 fi
 
-echo "[$(date)] Cleanup done. Free Storage: $(df -h / | awk 'NR==2 {print $4}') (delta: ${DELTA_DISPLAY})"
+echo "[$(date)] Cleanup done. Free Storage: $(df -h / | awk 'NR==2 {print $4}') (space recovered: ${DELTA_DISPLAY})"
