@@ -45,7 +45,7 @@ else
 fi
 
 echo
-read -r -p "Run os-cleaner now? [y/N]: " RUN_NOW
+read -r -p "Run os-cleaner now? [y/N]: " RUN_NOW </dev/tty
 case "$RUN_NOW" in
     [yY]|[yY][eE][sS])
         "$INSTALL_PATH"
