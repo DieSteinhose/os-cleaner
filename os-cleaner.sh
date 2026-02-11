@@ -30,10 +30,6 @@ if [ "$DELTA_KB" -lt 0 ]; then
     DELTA_KB=0
 fi
 
-if command -v numfmt &>/dev/null; then
-    DELTA_DISPLAY=$(numfmt --to=iec --suffix=B -- $((DELTA_KB * 1024)))
-else
-    DELTA_DISPLAY="${DELTA_KB}K"
-fi
+DELTA_DISPLAY=$(awk -v kb="$DELTA_KB" 'BEGIN{b=kb*1024;split("B KB MB GB TB",u," ");i=1;while(b>=1024&&i<5){b/=1024;i++}printf ((b==int(b))?"%d%s":"%.1f%s"),b,u[i]}')
 
 echo "[$(date)] Cleanup done. Free Storage: $(df -h / | awk 'NR==2 {print $4}') (space recovered: ${DELTA_DISPLAY})"
