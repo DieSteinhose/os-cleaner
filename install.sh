@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+RED="\033[0;31m"
+NC="\033[0m"
+
 INSTALL_PATH="/usr/local/bin/os-cleaner"
 REPO_URL="https://raw.githubusercontent.com/diesteinhose/os-cleaner/main/os-cleaner.sh"
 CRON_SCHEDULE="5 5 * * MON"
@@ -41,7 +44,7 @@ fi
 if [ "$LOGROTATE_INSTALLED" = "true" ] && [ "$LOGROTATE_ACTIVE" = "true" ]; then
     echo "  Logrotate: installed and active"
 else
-    echo "  Reminder: logrotate is not installed or not active."
+    printf "  Reminder: %blogrotate is not installed or not active.%b\n" "$RED" "$NC"
 fi
 
 echo
