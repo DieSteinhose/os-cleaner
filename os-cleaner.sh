@@ -20,7 +20,7 @@ apt-get clean -y
 apt-get autoremove --purge -y
 
 # Logs (older than 7 days)
-journalctl --vacuum-time=7d
+journalctl --vacuum-time=14d
 
 # Finish
 sync

@@ -18,7 +18,7 @@ curl -fsSL https://raw.githubusercontent.com/DieSteinhose/os-cleaner/main/instal
 - If Docker is installed, removes unused images and build cache.
 - Cleans the apt cache.
 - Removes unused dependencies and old kernels.
-- Vacuums systemd journal logs older than 7 days.
+- Vacuums systemd journal logs older than 14 days.
 - Prints a summary with the current free space on /.
 
 ## Manual run
